@@ -684,10 +684,16 @@ Optionally, a different fractional part can be specified."
 (setf (documentation 'socket-connect 'function)
       "Connect to `host' on `port'.  `host' is assumed to be a string or
 an IP address represented in vector notation, such as #(192 168 1 1).
-`port' is assumed to be an integer.
+`port' is assumed to be an integer. For a UDP socket, `host' and `port' can be nil.
 
+`protocol' should be :stream (default) or :datagram, which mean TCP and UDP.
 `element-type' specifies the element type to use when constructing the
-stream associated with the socket.  The default is 'character.
+stream associated with a TCP socket.  The default is 'character.
+`timeout' is an integer representing the socket's read timeout (SO_RECVTIMEO) in seconds.
+`deadline' is only supported on CCL and Digitool MCL. Check their docs.
+`local-host' and `local-port', when specified, will cause the socket to bind to
+a local address. This is useful for selecting interfaces to send, or for
+listening for UDP on a port.
 
 `nodelay' Allows to disable/enable Nagle's algorithm (http://en.wikipedia.org/wiki/Nagle%27s_algorithm).
 If this parameter is omitted, the behaviour is inherited from the
@@ -764,26 +770,26 @@ backward compatibility (but deprecated); when both `reuseaddress' and
 
 (defun socket-connect (host port &rest args)
   (let ((socket-host host)
-	(socket-port port))
+	    (socket-port port))
     (loop 
       (restart-case (return
-                     (apply #'socket-connect-internal socket-host socket-port args))
-	(use-other-port (new-port) 
+                      (apply #'socket-connect-internal socket-host socket-port args))
+	    (use-other-port (new-port)
           :report "Use a different port." 
           :interactive 
           (lambda ()
-	    (format *query-io* "Port: ")
+	        (format *query-io* "Port: ")
             (list (parse-integer (read-line *query-io*))))
-	  (setq socket-port new-port))
-	(use-other-host (new-host) 
+	      (setq socket-port new-port))
+	    (use-other-host (new-host)
           :report "Use a different host." 
           :interactive 
           (lambda ()
-	    (format *query-io* "Host: ")
+	        (format *query-io* "Host: ")
             (list (read-line *query-io*)))
-	  (setq socket-host new-host))
+	      (setq socket-host new-host))
         (retry ()
-	  :report "Retry socket connection.")))))
+	      :report "Retry socket connection.")))))
 
 ;; This convenient macro is contributed by Jay Mellor (https://github.com/JayMellor)
 ;;
