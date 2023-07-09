@@ -214,11 +214,11 @@ DIRECTION should be either :INPUT or :OUTPUT or :IO"))
 Returns 4 values: (values buffer size host port)"))
 
 (defgeneric get-local-address (socket)
-  (:documentation "Returns the IP address of the socket."))
+  (:documentation "Returns the IP address of the socket as a byte vector."))
 
 (defgeneric get-peer-address (socket)
   (:documentation
-   "Returns the IP address of the peer the socket is connected to."))
+   "Returns the IP address of the peer the socket is connected to as a byte vector."))
 
 (defgeneric get-local-port (socket)
   (:documentation "Returns the IP port of the socket.
