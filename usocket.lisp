@@ -287,7 +287,8 @@ The `body' is an implied progn form."
      ,@body))
 
 (defstruct (wait-list (:constructor %make-wait-list))
-  %wait     ;; implementation specific
+  "A list of sockets for use with `wait-for-input'"
+  %wait   ;; implementation specific
   waiters ;; the list of all usockets
   map)  ;; maps implementation sockets to usockets
 
@@ -298,6 +299,7 @@ The `body' is an implied progn form."
 ;;  %remove-waiter
 
 (defun make-wait-list (waiters)
+  "Make a wait-list from `waiters', a list of usocket instances."
   (let ((wl (%make-wait-list)))
     (setf (wait-list-map wl) (make-hash-table))
     (%setup-wait-list wl)
@@ -305,12 +307,14 @@ The `body' is an implied progn form."
       (add-waiter wl x))))
 
 (defun add-waiter (wait-list input)
+  "Add `input', a usocket instance, to `wait-list'."
   (setf (gethash (socket input) (wait-list-map wait-list)) input
         (wait-list input) wait-list)
   (pushnew input (wait-list-waiters wait-list))
   (%add-waiter wait-list input))
 
 (defun remove-waiter (wait-list input)
+  "Remove `input', a usocket instance, from `wait-list'."
   (%remove-waiter wait-list input)
   (setf (wait-list-waiters wait-list)
         (remove input (wait-list-waiters wait-list))
@@ -318,6 +322,7 @@ The `body' is an implied progn form."
   (remhash (socket input) (wait-list-map wait-list)))
 
 (defun remove-all-waiters (wait-list)
+  "Clear all sockets in `wait-list', emptying the wait list."
   (dolist (waiter (wait-list-waiters wait-list))
     (%remove-waiter wait-list waiter))
   (setf (wait-list-waiters wait-list) nil)
