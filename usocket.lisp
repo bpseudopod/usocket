@@ -470,7 +470,7 @@ parse-integer) on each of the string elements."
          string))
 
 (defun hbo-to-dotted-quad (integer) ; exported
-  "Host-byte-order integer to dotted-quad string conversion utility."
+  "Convert a host-byte-order 32-bit `integer' to a dotted quad string"
   (let ((first (ldb (byte 8 24) integer))
         (second (ldb (byte 8 16) integer))
         (third (ldb (byte 8 8) integer))
@@ -478,7 +478,7 @@ parse-integer) on each of the string elements."
     (format nil "~D.~D.~D.~D" first second third fourth)))
 
 (defun hbo-to-vector-quad (integer) ; exported
-  "Host-byte-order integer to dotted-quad string conversion utility."
+  "Convert a host-byte-order 32-bit integer to a byte vector"
   (let ((first (ldb (byte 8 24) integer))
         (second (ldb (byte 8 16) integer))
         (third (ldb (byte 8 8) integer))
@@ -486,6 +486,7 @@ parse-integer) on each of the string elements."
     (vector first second third fourth)))
 
 (defun vector-quad-to-dotted-quad (vector) ; exported
+  "Convert a byte vector `vector' to a dotted quad string"
   (format nil "~D.~D.~D.~D"
           (aref vector 0)
           (aref vector 1)
@@ -493,6 +494,7 @@ parse-integer) on each of the string elements."
           (aref vector 3)))
 
 (defun dotted-quad-to-vector-quad (string) ; exported
+  "Convert a dotted quad `string' to a byte vector."
   (let ((list (list-of-strings-to-integers (split-sequence #\. string))))
     (vector (first list) (second list) (third list) (fourth list))))
 
