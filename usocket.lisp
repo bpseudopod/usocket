@@ -206,12 +206,17 @@ can be performed on the `usocket'.
 DIRECTION should be either :INPUT or :OUTPUT or :IO"))
 
 (defgeneric socket-send (usocket buffer length &key host port)
-  (:documentation "Send packets through a previously opend `usocket'."))
+  (:documentation "Send `length' bytes of `buffer' through a datagram `usocket', returning the number of bytes sent.
+`host' and `port', when specified, will send the datagram to a different address than the socket was created with."))
 
 (defgeneric socket-receive (usocket buffer length &key)
-  (:documentation "Receive packets from a previously opend `usocket'.
+  (:documentation "Receive a packet from `usocket', writing up to `length' bytes into `buffer', a (simple-array (unsigned-byte 8) (*)).
 
-Returns 4 values: (values buffer size host port)"))
+Returns 4 values: return-buffer, return-length, remote-host, and remote-port
+`return-buffer': the buffer the packet was written to
+`length': the number of bytes in the packet
+`remote-host': the host that sent the datagram
+`remote-port': the port the datagram was sent from"))
 
 (defgeneric get-local-address (socket)
   (:documentation "Returns the IP address of the socket as a byte vector."))
