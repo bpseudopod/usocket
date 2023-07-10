@@ -521,6 +521,7 @@ such as 3232235777."
 ;;
 
 (defun vector-to-ipv6-host (vector) ; exported
+  "Convert a byte vector `vector' of at least 16 bytes into the string representation of an IPv6 host"
   (with-output-to-string (*standard-output*)
     (loop with zeros-collapsed-p
           with collapsing-zeros-p
@@ -574,6 +575,7 @@ such as 3232235777."
             (ensure-colon))))))
 
 (defun ipv6-host-to-vector (string) ; exported
+  "Convert an IPv6 host `string' to a byte vector"
   (assert (> (length string) 2) ()
           "Unsyntactic IPv6 address literal ~S, expected at least three characters" string)
   (destructuring-bind (words-before-double-colon words-after-double-colon)
