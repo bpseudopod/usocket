@@ -616,6 +616,10 @@ stringified hostname."
      (if *ipv6-only-p* "::" "0.0.0.0")))) ;; "::" is the IPv6 wildcard address
 
 (defun ip= (ip1 ip2) ; exported
+  "Return t if `ip1' and `ip2' represent the same host, regardless of type; return nil otherwise.
+
+BUG: If `ip1' is a byte vector, this function will return `nil' if `ip2' is any
+other representation, even if they represent the same host."
   (etypecase ip1
     (string (string= ip1                  ; IPv4 or IPv6
                      (host-to-hostname ip2)))
@@ -628,6 +632,7 @@ stringified hostname."
                 (host-byte-order ip2))))) ; convert ip2 to integer (hbo)
 
 (defun ip/= (ip1 ip2) ; exported
+  "Return t if `ip1' and `ip2' represent different hosts, nil otherwise."
   (not (ip= ip1 ip2)))
 
 ;;
