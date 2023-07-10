@@ -129,15 +129,19 @@ for GC on implementions operate on raw socket fd.")
   (:documentation "UDP (inet-datagram) socket"))
 
 (defun usocket-p (socket)
+  "Return t if `socket' is a usocket instance"
   (typep socket 'usocket))
 
 (defun stream-usocket-p (socket)
+  "Return t if `socket' is a `stream-usocket' instance."
   (typep socket 'stream-usocket))
 
 (defun stream-server-usocket-p (socket)
+  "Return t if `socket' is a `stream-server-usocket' instance."
   (typep socket 'stream-server-usocket))
 
 (defun datagram-usocket-p (socket)
+  "Return t if `socket' is a `datagram-usocket' instance."
   (typep socket 'datagram-usocket))
 
 (defun make-socket (&key socket)
