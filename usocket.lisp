@@ -421,6 +421,9 @@ the values documented in usocket.lisp in the usocket class."
 ;;
 
 (defun integer-to-octet-buffer (integer buffer octets &key (start 0))
+  "Given an integer `integer', write the first `octets' bytes of that integer into `buffer', returning `buffer'.
+
+`start', when specified, is the first index of `buffer' the bytes will be written to."
   (do ((b start (1+ b))
        (i (ash (1- octets) 3) ;; * 8
           (- i 8)))
@@ -429,6 +432,9 @@ the values documented in usocket.lisp in the usocket class."
           (ldb (byte 8 i) integer))))
 
 (defun octet-buffer-to-integer (buffer octets &key (start 0))
+  "Given a byte vector `buffer', convert `octets' bytes of its contents into an integer.
+
+`start', when specified, is the first index the integer will be read from."
   (let ((integer 0))
     (do ((b start (1+ b))
          (i (ash (1- octets) 3) ;; * 8
