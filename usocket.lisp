@@ -331,6 +331,9 @@ the socket.  When `timeout' (a non-negative real number) is
 specified, wait `timeout' seconds, or wait indefinitely when
 it isn't specified.  A `timeout' value of 0 (zero) means polling.
 
+`socket-or-sockets' can be either a single usocket instance, a list of usocket
+instances, or a wait-list instance.
+
 Returns two values: the first value is the list of streams which
 are readable (or in case of server streams acceptable).  NIL may
 be returned for this value either when waiting timed out or when
