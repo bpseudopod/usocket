@@ -47,8 +47,8 @@ been implemented yet."))
 
 (define-condition socket-condition (condition)
   ((socket :initarg :socket
-           :accessor usocket-socket))
-  ;;###FIXME: no slots (yet); should at least be the affected usocket...
+           :accessor usocket-socket
+           :documentation "Socket that raised the condition"))
   (:documentation "Parent condition for all socket related conditions."))
 
 (define-condition socket-error (socket-condition error)
