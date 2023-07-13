@@ -64,6 +64,7 @@ allowing the server to handle multiple connections in parallel."
   "The remote port of a TCP or UDP event. This variable is dynamically bound in the context of a `socket-server', specifically the handler function.")
 
 (defun default-udp-handler (buffer) ; echo
+  "Example handler for a UDP socket-server. Returns datagrams to sender."
   (declare (type (simple-array (unsigned-byte 8) *) buffer))
   buffer)
 
@@ -98,10 +99,12 @@ allowing the server to handle multiple connections in parallel."
       (values))))
 
 (defun default-tcp-handler (stream) ; null
+  "Example handler for a TCP socket-server. Sends client 'Hello, world!' then closes the stream."
   (declare (type stream stream))
   (format stream "Hello world!~%"))
 
 (defun echo-tcp-handler (stream)
+  "Example handler for a TCP socket-server, being an echo server."
   (loop
      (when (listen stream)
        (let ((line (read-line stream nil)))
