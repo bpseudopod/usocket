@@ -650,8 +650,8 @@ other representation, even if they represent the same host."
 ;;
 
 (defun get-host-by-name (name)
-  "0.7.1+: if there're IPv4 addresses, return the first IPv4 address.
-(unless in IPv6-only mode)"
+  "Get the first IP address for `name'. Returns an IPv4 address by default, or
+an IPv6 address if *ipv6-only-p* is true."
   (let* ((hosts (get-hosts-by-name name))
          (ipv4-hosts (remove-if-not #'(lambda (ip) (= 4 (length ip))) hosts))
 	 (ipv6-hosts (remove-if #'(lambda (ip) (= 4 (length ip))) hosts)))
@@ -659,9 +659,13 @@ other representation, even if they represent the same host."
 	  (ipv4-hosts    (car ipv4-hosts))
 	  (t             (car hosts)))))
 
+(setf (documentation 'get-hosts-by-name 'function)
+      "Get a list of all IP addresses associated with `name', including both
+      IPv4 and IPv6 addresses.")
+
 (defun get-random-host-by-name (name)
-  "0.7.1+: if there're IPv4 addresses, only return a random IPv4 address.
-(unless in IPv6-only mode)"
+  "Get a random IP address for `name'. Returns an IPv4 address by default, or an
+IPv6 address if *ipv6-only-p* is true."
   (let* ((hosts (get-hosts-by-name name))
          (ipv4-hosts (remove-if-not #'(lambda (ip) (= 4 (length ip))) hosts))
 	 (ipv6-hosts (remove-if #'(lambda (ip) (= 4 (length ip))) hosts)))
