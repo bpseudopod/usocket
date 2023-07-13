@@ -30,6 +30,9 @@ sizeof(struct udphdr) = 8,  /* netinet/udp.h */
 
 (But for UDP broadcast, the maximum message size is limited by the MTU size of the underlying link)")
 
+(setf (documentation '*backend* 'variable)
+      "The backend that usocket uses. Can be either :native or :iolib")
+
 (defclass usocket ()
   ((socket
     :initarg :socket
@@ -67,9 +70,9 @@ to be internal only.
 
 Note: Accessed, but not used for 'stream-usocket'.
 "
-   ))
+    ))
   (:documentation
-"The main socket class.
+   "The main socket class.
 
 Sockets should be closed using the `socket-close' method."))
 
